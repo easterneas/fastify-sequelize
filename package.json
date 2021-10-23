@@ -29,5 +29,8 @@
     "nodemon": "^2.0.14",
     "sequelize-cli": "^6.2.0",
     "sqlite3": "^5.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
