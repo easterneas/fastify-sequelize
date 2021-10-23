@@ -74,6 +74,6 @@ it's generated manually, or by using `sequelize-cli` package. Neat!
 ## Issues
 
 If there are bugs appeared when using this plugin, feel free to create
-[a new issue](./issues). But remember to always add logs and the version of the
-plugin before posting issues here, and thank you for letting me know about
-the issues!
+[a new issue](https://github.com/easterneas/fastify-sequelize/issues).
+But remember to always add logs and the version of the plugin before posting
+issues here, and thank you for letting me know about the issues!
