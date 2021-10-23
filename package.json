@@ -1,0 +1,33 @@
+{
+  "name": "fastify-sequelize",
+  "version": "0.0.1",
+  "description": "A plugin for Fastify to integrate Sequelize into your project. Supports Sequelize 6 and can play along nicely with `sequelize-cli`.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/easterneas/fastify-sequelize.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/easterneas/fastify-sequelize/issues"
+  },
+  "homepage": "https://github.com/easterneas/fastify-sequelize#readme",
+  "dependencies": {
+    "fastify-plugin": "^3.0.0"
+  },
+  "peerDependencies": {
+    "sequelize": "^6.7.0"
+  },
+  "devDependencies": {
+    "fastify": "^3.22.1",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
+    "sequelize-cli": "^6.2.0",
+    "sqlite3": "^5.0.2"
+  }
+}
