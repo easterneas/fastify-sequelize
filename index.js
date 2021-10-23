@@ -4,31 +4,25 @@ const Sequelize = require('sequelize')
 const { readdirSync, statSync } = require('fs')
 const { join } = require('path')
 
+const env = process.env.NODE_ENV || 'development';
+
 const defaultConfig = {
   dialect: 'sqlite',
   modelsPath: './models',
   name: 'models',
-  autoConnect: true,
 
   username: null,
   password: null
 }
 
 function sequelizePlugin (fastify, opts, done) {
-  // destruct name and autoConnect from opts parameter, and
-  // put everything else into userConfig
-  let { name, autoConnect, ...userConfig } = opts
-
-  // this process will override the defaultConfig value with userConfig
-  // and then destruct again into modelsPath and config for the rest
-  const { modelsPath, ...config } = { ...defaultConfig, ...userConfig }
+  const { name, ...userConfig } = opts
+  const configByEnv = userConfig[env]
+  const { modelsPath, ...config } = { ...defaultConfig, ...configByEnv }
 
   if(!config.username) delete config.username
   if(!config.password) delete config.password
 
-  // initialize Sequelize here...
-  // mostly will borrow Sequelize-generated models/index.js file
-  // with little modifications to conform with the module
   let db = {}
   let sequelize
 
