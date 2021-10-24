@@ -75,7 +75,7 @@ test(
     const app = await initializeApp(fastify)
     const { sequelize, Sequelize } = app.models
 
-    await app.ready(async function () {
+    app.ready(async function () {
       const Movie = sequelize.define('movies', {
         name: Sequelize.STRING,
         genre: Sequelize.STRING
