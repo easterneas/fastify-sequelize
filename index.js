@@ -15,7 +15,7 @@ const defaultConfig = {
   password: null
 }
 
-function sequelizePlugin (fastify, opts, done) {
+async function sequelizePlugin (fastify, opts) {
   const { name, ...userConfig } = opts
   const configByEnv = userConfig[env]
   const { modelsPath, ...config } = { ...defaultConfig, ...configByEnv }
@@ -48,13 +48,6 @@ function sequelizePlugin (fastify, opts, done) {
   fastify.decorate(name || defaultConfig.name, db)
 
   db.sequelize.sync({ alter: true, logging: opts.logging || false })
-  .then(() => {
-    done()
-  })
-  .catch(err => {
-    console.log(err)
-    done()
-  })
 }
 
 module.exports = fp(sequelizePlugin)
