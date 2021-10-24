@@ -26,46 +26,45 @@ test(
 
 test(
   'Sequelize should be able to load models generated through sequelize-cli',
-  async function () {
-    // executes the model generation through sequelize-cli
-    try {
-      await exec('mkdir models migrations')
-    } catch (e) {}
+  function () {
+    let sequelize, Movie
 
-    await exec(`
+    return exec(`
+      mkdir models migrations;
       npx sequelize-cli \
       model:create \
       --name Movie \
       --attributes name:string,genre:string \
-      --force
+      --force;
     `)
+    .then(_ => initializeApp(fastify, { storage: './model.sqlite' }))
+    .then(app => {
+      sequelize = app.models.sequelize
+      Movie = app.models.Movie
 
-    // initializes Fastify app instance
-    const app = await initializeApp(fastify, { storage: './model.sqlite' })
-    const { sequelize, Movie } = app.models
+      return app.ready()
+    })
+    .then(_ => Movie.create({
+      name: 'The Async Adventures of Dr. Ed',
+      genre: 'Adventure'
+    }))
+    .then(_ => Movie.findOne({ name: 'The Async Adventures of Dr. Ed' }))
+    .then(movie => {
+      const columns = Object.keys(JSON.parse(JSON.stringify(movie)))
+      console.log(columns)
 
-    await app.ready(async function () {
-      await Movie.create({
-        name: 'The Async Adventures of Dr. Ed',
-        genre: 'Adventure'
-      })
+      expect(columns).toContain('id')
+      expect(columns).toContain('name')
+      expect(columns).toContain('genre')
+      expect(columns).toContain('createdAt')
+      expect(columns).toContain('updatedAt')
 
-      const movie = JSON.parse(
-        JSON.stringify(
-          await Movie.findOne({ name: 'The Async Adventures of Dr. Ed' })
-        )
-      )
-
-      expect(Object.keys(movie)).toContain('id')
-      expect(Object.keys(movie)).toContain('name')
-      expect(Object.keys(movie)).toContain('genre')
-      expect(Object.keys(movie)).toContain('createdAt')
-      expect(Object.keys(movie)).toContain('updatedAt')
-
-      await sequelize.close()
-
-      await exec('rm -rf ./model.sqlite')
-      await exec('rm -rf ./models ./migrations')
+      return sequelize.close()
+    })
+    .catch(console.trace)
+    .finally(_ => {
+      exec('rm -rf ./model.sqlite')
+      exec('rm -rf ./models ./migrations')
     })
   }
 )
