@@ -47,7 +47,7 @@ async function sequelizePlugin (fastify, opts) {
 
   fastify.decorate(name || defaultConfig.name, db)
 
-  db.sequelize.sync({ alter: true, logging: opts.logging || false })
+  return db.sequelize.sync({ alter: true, logging: false })
 }
 
 module.exports = fp(sequelizePlugin)
