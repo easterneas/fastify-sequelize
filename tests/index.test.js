@@ -25,20 +25,6 @@ test(
 )
 
 test(
-  'Sequelize should be able to close the connection',
-  async function () {
-    const app = await initializeApp(fastify)
-    const { sequelize } = app.models
-
-    await app.ready(async function () {
-      expect(await sequelize.close()).toEqual(undefined)
-
-      await exec('rm -rf ./data.sqlite')
-    })
-  }
-)
-
-test(
   'Sequelize should be able to load models generated through sequelize-cli',
   async function () {
     // executes the model generation through sequelize-cli
@@ -116,6 +102,20 @@ test(
       expect(Object.keys(newMovie)).toContain('updatedAt')
 
       await sequelize.close()
+
+      await exec('rm -rf ./data.sqlite')
+    })
+  }
+)
+
+test(
+  'Sequelize should be able to close the connection',
+  async function () {
+    const app = await initializeApp(fastify)
+    const { sequelize } = app.models
+
+    app.ready(async function () {
+      expect(await sequelize.close()).toEqual(undefined)
 
       await exec('rm -rf ./data.sqlite')
     })
