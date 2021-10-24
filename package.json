@@ -1,6 +1,6 @@
 {
   "name": "@easterneas/fastify-sequelize",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A plugin for Fastify to integrate Sequelize into your project. Supports Sequelize 6 and can play along nicely with `sequelize-cli`.",
   "main": "index.js",
   "scripts": {
